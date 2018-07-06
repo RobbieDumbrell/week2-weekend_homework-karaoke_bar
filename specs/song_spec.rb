@@ -5,6 +5,7 @@ require_relative('../song.rb')
 class TestSong < MiniTest::Test
 
   def setup
+    # create song
     @song1 = Song.new("Song 1", "Mr. Man", "These are the lyrics to song 1")
   end
 

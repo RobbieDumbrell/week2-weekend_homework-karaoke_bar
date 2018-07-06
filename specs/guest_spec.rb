@@ -5,9 +5,14 @@ require_relative('../guest.rb')
 class TestGuest < MiniTest::Test
 
   def setup
+    # create song
     @song1 = Song.new("Song 1", "Mr. Man", "These are the lyrics to song 1")
 
+    # create guest
     @robbie = Guest.new("Robbie", 25, 100, @song1)
+
+    # create room
+    @pop_room = Room.new("Pop", [@song1], 20, 3)
   end
 
   def test_guest_has_name
@@ -24,6 +29,11 @@ class TestGuest < MiniTest::Test
 
   def test_guest_has_fav_song
     assert_equal(@song1, @robbie.favourite_song)
+  end
+
+  def test_guest_can_pay_entry_fee
+    @robbie.pay_entry_fee(@pop_room)
+    assert_equal(80, @robbie.wallet)
   end
 
 end
