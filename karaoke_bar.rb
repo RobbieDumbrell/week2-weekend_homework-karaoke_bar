@@ -11,7 +11,7 @@ class KaraokeBar
   end
 
   def sell_ticket(room)
-    @till += room.fee
+    @till += room.fee 
   end
 
 end
