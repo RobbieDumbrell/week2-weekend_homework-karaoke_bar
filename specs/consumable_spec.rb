@@ -1,6 +1,6 @@
 require('minitest/autorun')
 require('minitest/rg')
-require_relative('../consumable.rb')
+require_relative('../super_classes/consumable.rb')
 
 class TestConsumable < MiniTest::Test
 

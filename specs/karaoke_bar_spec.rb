@@ -23,6 +23,7 @@ class TestKaraokeBar < MiniTest::Test
     @ellie = Guest.new("Ellie", 25, 200, @song1)
     @jim = Guest.new("Jim", 40, 25, @song4)
     @jemma = Guest.new("Jemma", 45, 2, @song3)
+    @baby = Guest.new("Baby", 8, 10, @song1)
 
     # create rooms
     @pop_room = Room.new("Pop", @pop_songs, 20, 3)
@@ -33,9 +34,11 @@ class TestKaraokeBar < MiniTest::Test
 
     # create food
     @pizza = Food.new("Pizza", 5, -4)
+    @burger = Food.new("Burger", 6, -5)
 
     # create drinks
     @beer = Drink.new("Beer", 3, 5)
+    @wine = Drink.new("Wine", 4, 7)
 
     # create karaoke bar
     @the_karaoke_bar = KaraokeBar.new("The Karaoke Bar", @room_collection)
@@ -78,6 +81,11 @@ class TestKaraokeBar < MiniTest::Test
   def test_bar_can_check_age_of_guest_is_legal
     verdict = @the_karaoke_bar.check_if_legal(@robbie)
     assert_equal(true, verdict)
+  end
+
+  def test_bar_can_check_age_of_guest_is_not_legal
+    verdict = @the_karaoke_bar.check_if_legal(@baby)
+    assert_equal(false, verdict)
   end
 
   def test_bar_can_check_drunkeness_of_guest_is_servable
