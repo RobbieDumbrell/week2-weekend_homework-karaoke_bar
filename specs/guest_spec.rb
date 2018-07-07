@@ -36,4 +36,8 @@ class TestGuest < MiniTest::Test
     assert_equal(80, @robbie.wallet)
   end
 
+  def test_guest_has_0_drunkeness_at_start
+    assert_equal(0, @robbie.drunkeness)
+  end
+
 end

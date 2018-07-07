@@ -1,6 +1,11 @@
 require_relative('room.rb')
+require_relative('food.rb')
+require_relative('drink.rb')
+require_relative('../../week_02/day_3/pub_lab/pub.rb')
 
-class KaraokeBar
+class KaraokeBar < Pub
+
+# inherits from Pub class created previously - has methods for sell_drink(drink), sell_food(food), check_if_legal(guest), check_if_drunk(guest).
 
   attr_reader :name, :rooms, :till
 
@@ -11,7 +16,7 @@ class KaraokeBar
   end
 
   def sell_ticket(room)
-    @till += room.fee 
+    @till += room.fee
   end
 
 end

@@ -31,6 +31,12 @@ class TestKaraokeBar < MiniTest::Test
     # room collection
     @room_collection = [@pop_room, @rock_room]
 
+    # create food
+    @pizza = Food.new("Pizza", 5, -4)
+
+    # create drinks
+    @beer = Drink.new("Beer", 3, 5)
+
     # create karaoke bar
     @the_karaoke_bar = KaraokeBar.new("The Karaoke Bar", @room_collection)
   end
@@ -57,6 +63,26 @@ class TestKaraokeBar < MiniTest::Test
     assert_equal(20, @the_karaoke_bar.till)
     assert_equal(80, @robbie.wallet)
     assert_equal(1, @pop_room.guests.count)
+  end
+
+  def test_bar_can_sell_food
+    @the_karaoke_bar.sell_food(@pizza)
+    assert_equal(5, @the_karaoke_bar.till)
+  end
+
+  def test_bar_can_sell_drink
+    @the_karaoke_bar.sell_drink(@beer)
+    assert_equal(3, @the_karaoke_bar.till)
+  end
+
+  def test_bar_can_check_age_of_guest_is_legal
+    verdict = @the_karaoke_bar.check_if_legal(@robbie)
+    assert_equal(true, verdict)
+  end
+
+  def test_bar_can_check_drunkeness_of_guest_is_servable
+    verdict = @the_karaoke_bar.check_if_drunk(@robbie)
+    assert_equal(false, verdict)
   end
 
 end
