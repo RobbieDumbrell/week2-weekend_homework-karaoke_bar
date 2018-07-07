@@ -1,7 +1,7 @@
 require_relative('room.rb')
 require_relative('food.rb')
 require_relative('drink.rb')
-require_relative('pub.rb')
+require_relative('super_classes/pub.rb')
 
 class KaraokeBar < Pub
 
