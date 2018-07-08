@@ -80,7 +80,7 @@ class KaraokeBar < Pub
     end
   end
 
-  def stock_value
+  def stock_value # calculates monetary value of total items sitting in the stock at any moment in time (based on sales price)
     stock_value = 0
 
     @stock[:food].each do |food_item, amount|
@@ -92,7 +92,7 @@ class KaraokeBar < Pub
       value = amount * drink_item.price
       stock_value += value
     end
-      
+
     return stock_value
   end
 
