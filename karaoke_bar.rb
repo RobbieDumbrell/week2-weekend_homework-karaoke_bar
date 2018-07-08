@@ -80,4 +80,20 @@ class KaraokeBar < Pub
     end
   end
 
+  def stock_value
+    stock_value = 0
+
+    @stock[:food].each do |food_item, amount|
+      value = amount * food_item.price
+      stock_value += value
+    end
+
+    @stock[:drinks].each do |drink_item, amount|
+      value = amount * drink_item.price
+      stock_value += value
+    end
+      
+    return stock_value
+  end
+
 end

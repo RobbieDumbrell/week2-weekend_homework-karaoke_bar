@@ -166,4 +166,14 @@ class TestKaraokeBar < MiniTest::Test
     assert_equal(2, @the_karaoke_bar.stock[:drinks][@wine])
   end
 
+  def test_bar_can_check_stock_value
+    assert_equal(65, @the_karaoke_bar.stock_value)
+  end
+
+  def test_check_stock_value_after_adding
+    @the_karaoke_bar.add_to_stock(@pizza, 5)
+    @the_karaoke_bar.add_to_stock(@nachos, 2)
+    assert_equal(98, @the_karaoke_bar.stock_value)
+  end
+
 end
