@@ -35,6 +35,7 @@ class TestKaraokeBar < MiniTest::Test
     # create food
     @pizza = Food.new("Pizza", 5, -4)
     @burger = Food.new("Burger", 6, -5)
+    @nachos = Food.new("Nachos", 4, -3)
 
     # create drinks
     @beer = Drink.new("Beer", 3, 5)
@@ -42,6 +43,20 @@ class TestKaraokeBar < MiniTest::Test
 
     # create karaoke bar
     @the_karaoke_bar = KaraokeBar.new("The Karaoke Bar", @room_collection)
+
+    # stock to be added to bar
+    @food_to_add = {
+      @pizza => 4,
+      @burger => 3
+    }
+
+    @drinks_to_add = {
+      @beer => 5,
+      @wine => 3
+    }
+
+    # add stock to the empty bar
+    @the_karaoke_bar.add_starting_stock(@food_to_add, @drinks_to_add)
   end
 
   def test_check_bar_has_name
@@ -91,6 +106,64 @@ class TestKaraokeBar < MiniTest::Test
   def test_bar_can_check_drunkeness_of_guest_is_servable
     verdict = @the_karaoke_bar.check_if_drunk(@robbie)
     assert_equal(false, verdict)
+  end
+
+  def test_bar_can_add_starting_stock
+    expected_stock = {
+      food: {
+        @pizza => 4,
+        @burger => 3
+      },
+      drinks: {
+        @beer => 5,
+        @wine => 3
+      }
+    }
+    assert_equal(expected_stock, @the_karaoke_bar.stock)
+  end
+
+  def test_bar_can_amend_stock_levels__existing_item
+    @the_karaoke_bar.add_to_stock(@pizza, 10)
+    actual = @the_karaoke_bar.stock[:food][@pizza]
+    assert_equal(14, actual)
+  end
+
+  def test_bar_can_amend_stock_levels__new_item
+    @the_karaoke_bar.add_to_stock(@nachos, 2)
+    actual = @the_karaoke_bar.stock[:food][@nachos]
+    assert_equal(2, actual)
+  end
+
+  def test_bar_can_amend_drinks_stock
+    @the_karaoke_bar.add_to_stock(@wine, 20)
+    actual = @the_karaoke_bar.stock[:drinks][@wine]
+    assert_equal(23, actual)
+  end
+
+  def test_bar_can_check_stock__true
+    verdict = @the_karaoke_bar.check_if_in_stock(@pizza)
+    assert_equal(true, verdict)
+  end
+
+  def test_bar_can_check_stock__false_no_exist
+    verdict = @the_karaoke_bar.check_if_in_stock(@nachos)
+    assert_equal(false, verdict)
+  end
+
+  def test_bar_can_check_stock__false_exists
+    @the_karaoke_bar.stock[:food][@pizza] = 0
+    verdict = @the_karaoke_bar.check_if_in_stock(@pizza)
+    assert_equal(false, verdict)
+  end
+
+  def test_bar_can_remove_stock_item__food
+    @the_karaoke_bar.remove_stock_item(@pizza)
+    assert_equal(3, @the_karaoke_bar.stock[:food][@pizza])
+  end
+
+  def test_bar_can_remove_stock_item__drink
+    @the_karaoke_bar.remove_stock_item(@wine)
+    assert_equal(2, @the_karaoke_bar.stock[:drinks][@wine])
   end
 
 end

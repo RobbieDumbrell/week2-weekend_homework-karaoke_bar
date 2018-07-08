@@ -11,7 +11,7 @@ class Room
     @song_library = song_library # this will be an array of Song class instances.
     @fee = fee # this will be an integer.
     @guests = [] # this is an empty array on creation.
-    @capacity = capacity
+    @capacity = capacity # this will be an integer (max. guests allowed)
   end
 
   def check_in_guest(guest, bar) # this takes the instance of Guest class and puts it into the guests array, if the guests array length is less than the capacity of the room.
@@ -21,7 +21,7 @@ class Room
       bar.sell_ticket(self) # bar increases till value by entry fee amount.
       # guest celebrates if their favourite song is on the playlist.
       if @song_library.include?(guest.favourite_song)
-        guest.celebrate_fav_song
+        guest.celebrate_fav_song # guest celebrates if they get checked into a room with their favourite song.
       end
     elsif @guests.length < @capacity && guest.wallet < @fee
       return "Guest does not have the funds!"

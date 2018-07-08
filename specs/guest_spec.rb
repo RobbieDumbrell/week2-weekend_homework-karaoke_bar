@@ -16,15 +16,32 @@ class TestGuest < MiniTest::Test
 
     # create food
     @pizza = Food.new("Pizza", 5, -4)
+    @burger = Food.new("Burger", 6, -5)
+    @nachos = Food.new("Nachos", 4, -3)
 
-    # create drink
-    @beer = Drink.new("Beer", 4, 5)
+    # create drinks
+    @beer = Drink.new("Beer", 3, 5)
+    @wine = Drink.new("Wine", 4, 7)
 
     # create room
     @pop_room = Room.new("Pop", [@song1], 20, 3)
 
     # create bar
     @the_karaoke_bar = KaraokeBar.new("The Karaoke Bar", [@pop_room])
+
+    # stock to be added to bar
+    @food_to_add = {
+      @pizza => 4,
+      @burger => 3
+    }
+
+    @drinks_to_add = {
+      @beer => 5,
+      @wine => 3
+    }
+
+    # add stock to the empty bar
+    @the_karaoke_bar.add_starting_stock(@food_to_add, @drinks_to_add)
   end
 
   def test_guest_has_name
@@ -78,8 +95,8 @@ class TestGuest < MiniTest::Test
 
   def test_guest_can_buy_drink_and_all_actions_happen
     @robbie.buy_drink(@beer, @the_karaoke_bar)
-    assert_equal(96, @robbie.wallet)
-    assert_equal(4, @the_karaoke_bar.till)
+    assert_equal(97, @robbie.wallet)
+    assert_equal(3, @the_karaoke_bar.till)
     assert_equal(1, @robbie.drinks_in_stomach.count)
     assert_equal(5, @robbie.drunkeness)
   end
@@ -96,8 +113,8 @@ class TestGuest < MiniTest::Test
     4.times do @robbie.buy_drink(@beer, @the_karaoke_bar)
     end
     @robbie.buy_drink(@beer, @the_karaoke_bar)
-    assert_equal(84, @robbie.wallet)
-    assert_equal(16, @the_karaoke_bar.till)
+    assert_equal(88, @robbie.wallet)
+    assert_equal(12, @the_karaoke_bar.till)
     assert_equal(4, @robbie.drinks_in_stomach.count)
     assert_equal(20, @robbie.drunkeness)
   end
@@ -116,6 +133,20 @@ class TestGuest < MiniTest::Test
     assert_equal(0, @the_karaoke_bar.till)
     assert_equal(0, @kevin.drinks_in_stomach.count)
     assert_equal(0, @kevin.drunkeness)
+  end
+
+  def test_guest_can_not_buy_food_if_out_of_stock
+    @robbie.buy_food(@nachos, @the_karaoke_bar)
+    assert_equal(100, @robbie.wallet)
+    assert_equal(0, @the_karaoke_bar.till)
+    assert_equal(0, @robbie.food_in_stomach.count)
+    assert_equal(0, @robbie.drunkeness)
+  end
+
+  def test_stock_goes_down_when_item_bought
+    @robbie.buy_food(@pizza, @the_karaoke_bar)
+    stock_level = @the_karaoke_bar.stock[:food][@pizza]
+    assert_equal(3, stock_level)
   end
 
 end
