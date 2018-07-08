@@ -80,6 +80,4 @@ class KaraokeBar < Pub
     end
   end
 
-
-
 end
